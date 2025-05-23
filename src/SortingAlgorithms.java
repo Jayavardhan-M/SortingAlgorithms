@@ -2,8 +2,7 @@
  * Coded by Jayavardhan M
  */
 
-import sorts.BubbleSort;
-import sorts.SelectionSort;
+import sorts.*;
 
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
@@ -12,13 +11,14 @@ public class SortingAlgorithms {
 
     public static final String NEW_LINE = "\n";
     public static final String DESIGN_LINE = "************************************************************";
-    public static final String SELECTION_SORT = "1. Selection Sort";
-    public static final String BUBBLE_SORT = "2. Bubble Sort";
     public static final String WELCOME_TEXT = DESIGN_LINE + NEW_LINE
             + "Welcome to Sorting Algorithms by Jayavardhan M" + NEW_LINE + NEW_LINE
             + "Enter Your Sort Algorithm:" + NEW_LINE
-            + SELECTION_SORT + NEW_LINE
-            + BUBBLE_SORT + NEW_LINE;
+            + "1. Selection Sort" + NEW_LINE
+            + "2. Bubble Sort" + NEW_LINE
+            + "3. Insertion Sort" + NEW_LINE
+            + "4. Heap Sort" + NEW_LINE
+            + "5. Quick Sort" + NEW_LINE;
 
     public static void main(String[] args) {
         System.out.print(WELCOME_TEXT);
@@ -48,6 +48,18 @@ public class SortingAlgorithms {
                 case 2 -> {
                     BubbleSort.bubbleSort(arr);
                     System.out.println(NEW_LINE + "Sorted Array using Bubble Sort:");
+                }
+                case 3 -> {
+                    InsertionSort.insertionSort(arr);
+                    System.out.println(NEW_LINE + "Sorted Array using Insertion Sort:");
+                }
+                case 4 -> {
+                    HeapSort.heapSort(arr);
+                    System.out.println(NEW_LINE + "Sorted Array using Heap Sort:");
+                }
+                case 5 -> {
+                    QuickSort.quickSort(arr, 0, arr.length - 1);
+                    System.out.println(NEW_LINE + "Sorted Array using Quick Sort:");
                 }
                 default -> {
                     System.out.println(NEW_LINE + "Invalid choice.");
