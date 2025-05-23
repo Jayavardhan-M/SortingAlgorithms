@@ -3,87 +3,126 @@
  */
 
 import sorts.*;
+import utils.*;
 
 import java.util.Scanner;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class SortingAlgorithms {
 
     public static final String NEW_LINE = "\n";
     public static final String DESIGN_LINE = "************************************************************";
     public static final String WELCOME_TEXT = DESIGN_LINE + NEW_LINE
-            + "Welcome to Sorting Algorithms by Jayavardhan M" + NEW_LINE + NEW_LINE
-            + "Enter Your Sort Algorithm:" + NEW_LINE
-            + "1. Selection Sort" + NEW_LINE
-            + "2. Bubble Sort" + NEW_LINE
-            + "3. Insertion Sort" + NEW_LINE
-            + "4. Heap Sort" + NEW_LINE
-            + "5. Quick Sort" + NEW_LINE;
+            + "Welcome to Sorting Algorithms by Jayavardhan M" + NEW_LINE + DESIGN_LINE;
 
     public static void main(String[] args) {
-        System.out.print(WELCOME_TEXT);
 
-        try (Scanner scanner = new Scanner(System.in)) {
-            System.out.print(NEW_LINE + "Choose an option (e.g., 1): ");
-            int choice = scanner.nextInt();
+        System.out.println(WELCOME_TEXT);
 
-            System.out.print("Enter array size: ");
-            int size = scanner.nextInt();
+        Scanner scanner = new Scanner(System.in);
+        boolean continueRunning = true;
 
-            if (size <= 0) {
-                System.out.println("Array size must be greater than 0.");
-                return;
-            }
+        while (continueRunning) {
 
-            int[] arr = generateRandomArray(size, 0, 100); // Random values between 0 and 99
+            printMenu();
+
+            int choice = getValidChoice(scanner);
+            int size = getValidSize(scanner);
+            boolean isTracingModeOn = getValidBoolean(scanner);
+
+            int[] arr = ArrayGenerator.generateRandomArray(size, 0, 100);
 
             System.out.println(NEW_LINE + "Original Array:");
-            printArray(arr);
+            ArrayPrinter.printArray(arr);
+
+            System.out.println((!isTracingModeOn) ?
+                    NEW_LINE + "(Turn on tracing mode for steps/iterations)" : "");
 
             switch (choice) {
                 case 1 -> {
+                    SelectionSort.isTracingModeOn = isTracingModeOn;
                     SelectionSort.selectionSort(arr);
                     System.out.println(NEW_LINE + "Sorted Array using Selection Sort:");
                 }
                 case 2 -> {
+                    BubbleSort.isTracingModeOn = isTracingModeOn;
                     BubbleSort.bubbleSort(arr);
                     System.out.println(NEW_LINE + "Sorted Array using Bubble Sort:");
                 }
                 case 3 -> {
+                    InsertionSort.isTracingModeOn = isTracingModeOn;
                     InsertionSort.insertionSort(arr);
                     System.out.println(NEW_LINE + "Sorted Array using Insertion Sort:");
                 }
                 case 4 -> {
+                    HeapSort.isTracingModeOn = isTracingModeOn;
                     HeapSort.heapSort(arr);
                     System.out.println(NEW_LINE + "Sorted Array using Heap Sort:");
                 }
                 case 5 -> {
+                    QuickSort.isTracingModeOn = isTracingModeOn;
                     QuickSort.quickSort(arr, 0, arr.length - 1);
                     System.out.println(NEW_LINE + "Sorted Array using Quick Sort:");
                 }
-                default -> {
-                    System.out.println(NEW_LINE + "Invalid choice.");
-                    return;
-                }
             }
 
-            printArray(arr);
-            System.out.println(NEW_LINE + "Thank You!!" + NEW_LINE + DESIGN_LINE);
+            ArrayPrinter.printArray(arr);
+
+            System.out.print(NEW_LINE + "Would you like to try another algorithm? (yes/no): ");
+            String again = scanner.next().trim().toLowerCase();
+            continueRunning = again.equals("yes") || again.equals("y");
+            if (continueRunning) System.out.print(NEW_LINE + DESIGN_LINE + NEW_LINE);
+        }
+
+        System.out.print(NEW_LINE + "Exiting Application... Thank You!!");
+        System.out.print(NEW_LINE + DESIGN_LINE + NEW_LINE);
+
+        scanner.close();
+    }
+
+    private static void printMenu() {
+        System.out.println(NEW_LINE + "Choose a Sorting Algorithm:");
+        System.out.println("1. Selection Sort");
+        System.out.println("2. Bubble Sort");
+        System.out.println("3. Insertion Sort");
+        System.out.println("4. Heap Sort");
+        System.out.println("5. Quick Sort");
+    }
+
+    private static int getValidChoice(Scanner scanner) {
+        while (true) {
+            System.out.print("Enter choice (1-5): ");
+            if (scanner.hasNextInt()) {
+                int choice = scanner.nextInt();
+                if (choice >= 1 && choice <= 5) return choice;
+            } else {
+                scanner.next();
+            }
+            System.out.println("Invalid input. Please enter a number between 1 and 5.");
         }
     }
 
-    public static int[] generateRandomArray(int size, int min, int max) {
-        int[] arr = new int[size];
-        for (int i = 0; i < size; i++) {
-            arr[i] = ThreadLocalRandom.current().nextInt(min, max);
+    private static int getValidSize(Scanner scanner) {
+        while (true) {
+            System.out.print("Enter array size: ");
+            if (scanner.hasNextInt()) {
+                int size = scanner.nextInt();
+                if (size > 0) return size;
+            } else {
+                scanner.next();
+            }
+            System.out.println("Invalid size. Please enter a positive integer.");
         }
-        return arr;
     }
 
-    public static void printArray(int[] arr) {
-        for (int num : arr) {
-            System.out.print(num + " ");
+    private static boolean getValidBoolean(Scanner scanner) {
+        while (true) {
+            System.out.print("Turn on Tracing Mode? (true/false): ");
+            String input = scanner.next().trim().toLowerCase();
+
+            if (input.equals("true")) return true;
+            if (input.equals("false")) return false;
+
+            System.out.println("Invalid input. Please enter 'true' or 'false'.");
         }
-        System.out.println();
     }
 }

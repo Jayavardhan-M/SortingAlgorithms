@@ -1,7 +1,13 @@
 package sorts;
 
+import utils.ArrayPrinter;
+
 public class HeapSort {
+
+    public static boolean isTracingModeOn = false;
+
     public static void heapSort(int[] arr) {
+
         int n = arr.length;
 
         for (int i = n / 2 - 1; i >= 0; i--) {
@@ -14,10 +20,13 @@ public class HeapSort {
             arr[i] = temp;
 
             heapify(arr, i, 0);
+
+            ArrayPrinter.printStepIfTracingEnabled(isTracingModeOn, (n - i), arr);
         }
     }
 
     private static void heapify(int[] arr, int n, int i) {
+
         int largest = i;
         int left = 2 * i + 1;
         int right = 2 * i + 2;

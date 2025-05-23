@@ -1,9 +1,22 @@
 package sorts;
 
+import utils.ArrayPrinter;
+
 public class QuickSort {
+
+    public static boolean isTracingModeOn = false;
+    private static int step = 1;
+
     public static void quickSort(int[] arr, int low, int high) {
+
         if (low < high) {
             int pi = partition(arr, low, high);
+
+            if (isTracingModeOn) {
+                System.out.print("Step/Iteration " + (step++) + " (Pivot: " + arr[pi] + "): ");
+                ArrayPrinter.printArray(arr);
+            }
+
             quickSort(arr, low, pi - 1);
             quickSort(arr, pi + 1, high);
         }

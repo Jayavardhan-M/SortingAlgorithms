@@ -1,6 +1,10 @@
 package sorts;
 
+import utils.ArrayPrinter;
+
 public class InsertionSort {
+
+    public static boolean isTracingModeOn = false;
 
     public static void insertionSort(int[] arr) {
         for (int i = 1; i < arr.length; i++) {
@@ -13,6 +17,8 @@ public class InsertionSort {
             }
 
             arr[j + 1] = key;
+
+            ArrayPrinter.printStepIfTracingEnabled(isTracingModeOn, i, arr);
         }
     }
 }

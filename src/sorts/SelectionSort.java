@@ -1,8 +1,13 @@
 package sorts;
 
+import utils.ArrayPrinter;
+
 public class SelectionSort {
 
+    public static boolean isTracingModeOn = false;
+
     public static void selectionSort(int[] arr) {
+
         int n = arr.length;
 
         for (int i = 0; i < n - 1; i++) {
@@ -14,10 +19,11 @@ public class SelectionSort {
                 }
             }
 
-            // Swap
             int temp = arr[minIdx];
             arr[minIdx] = arr[i];
             arr[i] = temp;
+
+            ArrayPrinter.printStepIfTracingEnabled(isTracingModeOn, (i + 1), arr);
         }
     }
 }
